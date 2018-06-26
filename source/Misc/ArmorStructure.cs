@@ -10,15 +10,37 @@ namespace MechEngineer
         internal static void ValidationRulesCheck(MechDef mechDef, ref Dictionary<MechValidationType, List<string>> errorMessages)
         {
             var errors = new List<string>();
-
             {
                 var weightSavings = CalculateArmorWeightSavings(mechDef);
                 errors.AddRange(weightSavings.ErrorMessages);
             }
-            
+
+            var structure = mechDef.Inventory.Select(i => i.Def).Where(i => i.IsStructure()).ToArray();
+            var slot_needs = mechDef.GetAdditionalSlots();
+
+            if (structure.Length == 0)
             {
-                var weightSavings = CalculateStructureWeightSavings(mechDef);
-                errors.AddRange(weightSavings.ErrorMessages);
+                errorMessages[MechValidationType.InvalidInventorySlots].Add("Structure Missing!");
+            }
+            else if (structure.Length > 1)
+            {
+                errorMessages[MechValidationType.InvalidInventorySlots].Add("Invalid structure allocation, left only one");
+            }
+            else if(mechDef.Chassis.Tonnage != structure[0].GetStructureWeight())
+            {
+                errorMessages[MechValidationType.InvalidInventorySlots].Add(
+                    string.Format("Structure weight missmatch. Replace {0}t structure with {1}t",
+                    structure[0].GetStructureWeight(), mechDef.Chassis.Tonnage));
+            }
+
+            var slots = mechDef.Inventory.Select(i => i.Def).Where(i => i.IsFiller()).Count();
+
+            if(slots != slot_needs)
+            {
+                if(slots > slot_needs)
+                    errorMessages[MechValidationType.InvalidInventorySlots].Add(string.Format("Too many reserved slots, remove {0}", slot_needs - slots));
+                else
+                    errorMessages[MechValidationType.InvalidInventorySlots].Add(string.Format("Not enough reserved slots, add {0}", slot_needs - slots));
             }
 
             errorMessages[MechValidationType.InvalidInventorySlots].AddRange(errors);
@@ -26,7 +48,9 @@ namespace MechEngineer
 
         internal static bool ProcessWeaponHit(MechComponent mechComponent, WeaponHitInfo hitInfo, ComponentDamageLevel damageLevel, bool applyEffects)
         {
-            if (mechComponent.componentDef.IsArmor() || mechComponent.componentDef.IsStructure())
+            if (mechComponent.componentDef.IsArmor()
+                || mechComponent.componentDef.IsStructure() 
+                || mechComponent.componentDef.IsFiller())
             {
                 return false;
             }
@@ -43,11 +67,6 @@ namespace MechEngineer
                 tonnageSaved += weightSavings.TonnageSaved;
             }
             
-            {
-                var weightSavings = CalculateStructureWeightSavings(mechDef);
-                tonnageSaved += weightSavings.TonnageSaved;
-            }
-
             return tonnageSaved;
         }
         
@@ -59,9 +78,12 @@ namespace MechEngineer
             {
                 savings = CalculateArmorWeightSavings(mechDef, mechComponentDef);
             }
-            else if (mechComponentDef.IsStructure())
+            else if (mechComponentDef.IsFiller())
             {
-                savings = CalculateStructureWeightSavings(mechDef, mechComponentDef);
+                var slot_needs = mechDef.GetAdditionalSlots();
+                var slots = mechDef.Inventory.Select(i => i.Def).Where(i => i.IsFiller()).Count();
+                tooltip.bonusesText.text = string.Format("Reserved slots: {0} / {1}", slots, slot_needs);
+                return;
             }
             else
             {
@@ -93,15 +115,6 @@ namespace MechEngineer
             var slots = mechDef.Inventory.Select(c => c.Def).Where(c => c.IsArmor()).ToList();
 
             return WeightSavings.Create(tonnage, slots, Control.settings.ArmorTypes, mechComponentDef);
-        }
-
-        private static WeightSavings CalculateStructureWeightSavings(MechDef mechDef, MechComponentDef mechComponentDef = null)
-        {
-            var tonnage = mechDef.Chassis.Tonnage / 10f;
-            
-            var slots = mechDef.Inventory.Select(c => c.Def).Where(c => c.IsStructure()).ToList();
-
-            return WeightSavings.Create(tonnage, slots, Control.settings.StructureTypes, mechComponentDef);
         }
     }
 }

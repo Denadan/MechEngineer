@@ -1,4 +1,5 @@
 ﻿using DynModLib;
+using System.Collections.Generic;
 
 namespace MechEngineer
 {
@@ -8,7 +9,7 @@ namespace MechEngineer
 
         public bool EngineCritsEnabled = true;
         public int EngineHeatSinkCapacityAdjustmentPerCrit = -15;
-        
+
         public string[] AutoFixMechDefSkip = { }; // mech defs to skip for AutoFixMechDef*
         public bool AutoFixMechDefEngine = true; // adds missing engine and removes too many jump jets
         public bool AutoFixMechDefGyro = true; // adds missing gyro
@@ -18,7 +19,7 @@ namespace MechEngineer
         public bool AutoFixMechDefCockpit = true; // adds missing cockpit
         public string AutoFixMechDefCockpitId = "Gear_Cockpit_Generic_Standard";
         public bool AutoFixCockpitUpgrades = true; // adds 3 tons to cockpit upgrades that weigh 0 tons
-        
+
         public string[] AutoFixChassisDefSkip = { };
         public bool AutoFixChassisDefSlots = true; // adds 2 torso slots at a cost of 2 leg slots per side if they match stock slot layouts
         public bool AutoFixChassisDefInitialTonnage = true;
@@ -79,17 +80,21 @@ namespace MechEngineer
                 Requirements = new[] {"emod_engineslots_cxxl_left", "emod_engineslots_cxxl_right"}
             }
         };
-        
+
         public bool AllowMixingDoubleAndSingleHeatSinks = false; // only useful for patchwork like behavior
         public bool FractionalAccounting = false; // instead of half ton rounding use kg precise calculations
         public bool AllowPartialWeightSavings = false; // similar to patchwork armor without any penalties and location requirements, also works for structure
 
-        public string StructurePrefix = "emod_structureslots_";
-        public WeightSavingSlotType[] StructureTypes = {
-            new WeightSavingSlotType { ComponentDefId = "emod_structureslots_endosteel", RequiredCriticalSlotCount = 14, WeightSavingsFactor = 0.5f },
-            new WeightSavingSlotType { ComponentDefId = "emod_structureslots_endocomposite", RequiredCriticalSlotCount = 7, WeightSavingsFactor = 0.25f },
-            new WeightSavingSlotType { ComponentDefId = "emod_structureslots_clanendosteel", RequiredCriticalSlotCount = 7, WeightSavingsFactor = 0.5f }
+        public string StructurePrefix = "emod_structure_";
+        public string FillerDefId = "emod_structureslot";
+
+        public CriticalRequre[] criticalRequrements =
+        {
+            new CriticalRequre {DefPrefixId = "emod_structure_standard_", RequiredCriticalSlotCount= 0},
+            new CriticalRequre {DefPrefixId = "emod_structure_endosteel_", RequiredCriticalSlotCount= 14},
+            new CriticalRequre {DefPrefixId = "emod_structure_cendosteel_", RequiredCriticalSlotCount= 7},
         };
+
 
         public string ArmorPrefix = "emod_armorslots_";
         public WeightSavingSlotType[] ArmorTypes = {
@@ -137,6 +142,12 @@ namespace MechEngineer
         public string ComponentTypeID;
         public float WeightMultiplier;
         public string[] Requirements = { };
+    }
+
+    public class CriticalRequre
+    {
+        public string DefPrefixId;
+        public int RequiredCriticalSlotCount;
     }
 
     public class WeightSavingSlotType

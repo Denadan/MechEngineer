@@ -26,9 +26,9 @@ namespace MechEngineer
             }
 
             {
-                var tonnage = chassisDef.Tonnage * Control.settings.AutoFixInitialToTotalTonnageFactor + Control.settings.AutoFixInitialFixedAddedTonnage;
+                //var tonnage = chassisDef.Tonnage * Control.settings.AutoFixInitialToTotalTonnageFactor + Control.settings.AutoFixInitialFixedAddedTonnage;
                 var info = typeof(ChassisDef).GetProperty("InitialTonnage");
-                var value = Convert.ChangeType(tonnage, info.PropertyType);
+                var value = Convert.ChangeType(0, info.PropertyType);
                 info.SetValue(chassisDef, value, null);
             }
 
@@ -55,7 +55,7 @@ namespace MechEngineer
                 ModifyInventorySlots(ref locations[i], ChassisLocations.LeftLeg, 4, 2);
                 ModifyInventorySlots(ref locations[i], ChassisLocations.RightLeg, 4, 2);
                 ModifyInventorySlots(ref locations[i], ChassisLocations.Head, 1, 2);
-                ModifyInventorySlots(ref locations[i], ChassisLocations.CenterTorso, 4, 12);
+                ModifyInventorySlots(ref locations[i], ChassisLocations.CenterTorso, 4, 14);
             }
 
             traverse.Method("refreshLocationReferences").GetValue();

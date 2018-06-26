@@ -54,12 +54,49 @@ namespace MechEngineer
             return CheckComponentDef(componentDef, ComponentType.Upgrade, Control.settings.StructurePrefix);
         }
 
+
+        internal static bool IsFiller(this MechComponentDef componentDef)
+        {
+            return componentDef.ComponentType == ComponentType.Upgrade && componentDef.Description.Id == Control.settings.FillerDefId;
+
+        }
+
         // ferros fibrous has some calculations behind it
         internal static bool IsArmor(this MechComponentDef componentDef)
         {
             return CheckComponentDef(componentDef, ComponentType.Upgrade, Control.settings.ArmorPrefix);
         }
+
+        internal static int GetStructureWeight(this MechComponentDef componentDef)
+        {
+            if (componentDef == null || !componentDef.IsStructure())
+                return 0;
+
+            try
+            {
+                var str = componentDef.Description.Id.Substring(componentDef.Description.Id.Length - 3, 3);
+                if (str[0] == '_')
+                    return int.Parse(str.Substring(1, 2));
+                else return int.Parse(str);
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
         
+        internal static int GetAdditionalSlots(this MechDef mechDef)
+        {
+            if (mechDef == null)
+                return 0;
+
+            return mechDef.Inventory
+                .Select(comp => comp.Def)
+                .Select(comp => Control.settings.criticalRequrements.FirstOrDefault(i => comp.Description.Id.StartsWith(i.DefPrefixId)))
+                .Where(r => r != null)
+                .Sum(r => r.RequiredCriticalSlotCount);
+        }
+
         private static bool CheckComponentDef(MechComponentDef def, ComponentType type, string prefix)
         {
             if (def.ComponentType != type)
