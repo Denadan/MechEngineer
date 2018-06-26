@@ -15,7 +15,7 @@
         "Icon" : "uixSvgIcon_quantity"
     },
     "BonusValueA" : "50% Weight",
-    "BonusValueB" : "14 slots reserved",
+    "BonusValueB" : "14 slots",
     "ComponentType" : "Upgrade",
     "ComponentSubType" : "NotSet",
     "PrefabIdentifier" : "",

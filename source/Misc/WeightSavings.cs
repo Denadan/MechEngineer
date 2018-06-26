@@ -8,12 +8,12 @@ namespace MechEngineer
 {
     internal class WeightSavings
     {
-        internal WeightSavingSlotType SlotType { get; private set; }
+        internal ArmorWeightSaving SlotType { get; private set; }
             
         internal int Count { get; private set; }
         internal int RequiredCount
         {
-            get { return SlotType == null ? 0 : SlotType.RequiredCriticalSlotCount; }
+            get { return SlotType == null ? 0 : 0; /* SlotType.RequiredCriticalSlotCount;*/ }
         }
 
         internal float TonnageSaved { get; private set; }
@@ -25,7 +25,7 @@ namespace MechEngineer
             ErrorMessages = new List<string>();
         }
 
-        internal static WeightSavings Create(float tonnage, IEnumerable<MechComponentDef> slots, WeightSavingSlotType[] slotTypes, MechComponentDef def)
+        internal static WeightSavings Create(float tonnage, IEnumerable<MechComponentDef> slots, ArmorWeightSaving[] slotTypes, MechComponentDef def)
         {
             var savings = new WeightSavings();
 

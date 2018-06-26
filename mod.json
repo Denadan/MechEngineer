@@ -20,6 +20,11 @@
 			"ShouldMergeJSON": false
 		},
 		{
+			"Type": "UpgradeDef",
+			"Path": "data/basic/armor/",
+			"ShouldMergeJSON": false
+		},
+		{
 			"Type": "HeatSinkDef",
 			"Path": "data/basic/engines/",
 			"ShouldMergeJSON": false

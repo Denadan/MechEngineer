@@ -97,6 +97,15 @@ namespace MechEngineer
                 .Sum(r => r.RequiredCriticalSlotCount);
         }
 
+        internal static float GetArmorWeightMod(this MechComponentDef mechComponent)
+        {
+            if (mechComponent == null || !mechComponent.IsArmor())
+                return 1f;
+            var armordef =
+                Control.settings.ArmorTypes.FirstOrDefault(i => i.ComponentDefId == mechComponent.Description.Id);
+            return armordef == null ? 1f : armordef.WeightSavingsFactor;
+        }
+
         private static bool CheckComponentDef(MechComponentDef def, ComponentType type, string prefix)
         {
             if (def.ComponentType != type)

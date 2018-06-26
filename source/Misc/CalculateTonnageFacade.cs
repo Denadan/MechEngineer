@@ -9,7 +9,7 @@ namespace MechEngineer
         {
             float tonnage = 0;
             tonnage += EngineMisc.TonnageChanges(mechDef);
-            tonnage -= ArmorStructure.TonnageSavings(mechDef);
+            tonnage -= ArmorStructure.ArmorTonnageSave(mechDef);
             return tonnage;
         }
     }

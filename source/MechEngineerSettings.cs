@@ -90,19 +90,24 @@ namespace MechEngineer
 
         public CriticalRequre[] criticalRequrements =
         {
-            new CriticalRequre {DefPrefixId = "emod_structure_standard_", RequiredCriticalSlotCount= 0},
-            new CriticalRequre {DefPrefixId = "emod_structure_endosteel_", RequiredCriticalSlotCount= 14},
-            new CriticalRequre {DefPrefixId = "emod_structure_cendosteel_", RequiredCriticalSlotCount= 7},
+            new CriticalRequre { DefPrefixId = "emod_structure_endosteel_", RequiredCriticalSlotCount= 14},
+            new CriticalRequre { DefPrefixId = "emod_structure_cendosteel_", RequiredCriticalSlotCount= 7},
+            new CriticalRequre { DefPrefixId = "emod_armor_lightferrosfibrous", RequiredCriticalSlotCount = 7},
+            new CriticalRequre { DefPrefixId = "emod_armor_ferrosfibrous", RequiredCriticalSlotCount = 14 },
+            new CriticalRequre { DefPrefixId = "emod_armor_clanferrosfibrous", RequiredCriticalSlotCount = 7},
+            new CriticalRequre { DefPrefixId = "emod_armor_stealth", RequiredCriticalSlotCount = 6 },
+            new CriticalRequre { DefPrefixId = "emod_armor_heavyferrosfibrous", RequiredCriticalSlotCount = 21}
         };
 
 
-        public string ArmorPrefix = "emod_armorslots_";
-        public WeightSavingSlotType[] ArmorTypes = {
-            new WeightSavingSlotType { ComponentDefId = "emod_armorslots_lightferrosfibrous", RequiredCriticalSlotCount = 7, WeightSavingsFactor = 1f - 1f / 1.06f },
-            new WeightSavingSlotType { ComponentDefId = "emod_armorslots_ferrosfibrous", RequiredCriticalSlotCount = 14, WeightSavingsFactor = 1f - 1f / 1.12f },
-            new WeightSavingSlotType { ComponentDefId = "emod_armorslots_clanferrosfibrous", RequiredCriticalSlotCount = 7, WeightSavingsFactor = 1f - 1f / 1.2f },
-            new WeightSavingSlotType { ComponentDefId = "emod_armorslots_stealth", RequiredCriticalSlotCount = 6, WeightSavingsFactor = 0f },
-            new WeightSavingSlotType { ComponentDefId = "emod_armorslots_heavyferrosfibrous", RequiredCriticalSlotCount = 21, WeightSavingsFactor = 1f - 1f / 1.24f }
+        public string ArmorPrefix = "emod_armor_";
+        public ArmorWeightSaving[] ArmorTypes = {
+            new ArmorWeightSaving { ComponentDefId = "emod_armor_standard", WeightSavingsFactor = 1f },
+            new ArmorWeightSaving { ComponentDefId = "emod_armor_lightferrosfibrous", WeightSavingsFactor = 1.06f },
+            new ArmorWeightSaving { ComponentDefId = "emod_armor_ferrosfibrous",WeightSavingsFactor = 1.12f },
+            new ArmorWeightSaving { ComponentDefId = "emod_armor_clanferrosfibrous",  WeightSavingsFactor = 1.2f },
+            new ArmorWeightSaving { ComponentDefId = "emod_armor_stealth",  WeightSavingsFactor = 1f },
+            new ArmorWeightSaving { ComponentDefId = "emod_armor_heavyferrosfibrous",WeightSavingsFactor = 1.24f }
         };
 
         /* 
@@ -150,10 +155,9 @@ namespace MechEngineer
         public int RequiredCriticalSlotCount;
     }
 
-    public class WeightSavingSlotType
+    public class ArmorWeightSaving
     {
         public string ComponentDefId;
-        public int RequiredCriticalSlotCount;
         public float WeightSavingsFactor;
     }
 }

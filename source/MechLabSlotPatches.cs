@@ -111,14 +111,12 @@ namespace MechEngineer
                     .OrderByDescending(x => x.localPosition.y)
                     .ToList();
 
-                //foreach (var slot in slots)
-                //{
-                //    Control.mod.Logger.LogDebug(slot.name);
-                //}
-
                 var changedSlotCount = ___maxSlots - slots.Count;
+
+
                 if (changedSlotCount == 0)
                 {
+                    change_color(slots);
                     return;
                 }
 
@@ -128,16 +126,19 @@ namespace MechEngineer
                 for (var i = slots.Count; i < ___maxSlots; i++)
                 {
                     var newSlot = UnityEngine.Object.Instantiate(templateSlot, layout);
-                    newSlot.localPosition = new Vector3(0, - (1 + i * SlotHeight), 0);
+                    newSlot.localPosition = new Vector3(0, -(1 + i * SlotHeight), 0);
                     newSlot.SetSiblingIndex(templateSlot.GetSiblingIndex());
                     newSlot.name = "slot (" + i + ")";
                 }
-                
+
                 // remove abundant
                 for (var i = ___maxSlots; i < slots.Count; i++)
                 {
                     UnityEngine.Object.Destroy(slots[i].gameObject);
                 }
+
+                change_color(slots);
+
 
                 var changedHeight = changedSlotCount * SlotHeight;
 
@@ -147,6 +148,15 @@ namespace MechEngineer
             catch (Exception e)
             {
                 Control.mod.Logger.LogError(e);
+            }
+        }
+
+        private static void change_color(List<Transform> slots)
+        {
+            foreach (var transform in slots)
+            {
+                var color = transform.GetComponentInChildren<BattleTech.UI.UIColorRefTracker>();
+                color.SetUIColor(UIColor.Blue);
             }
         }
 
