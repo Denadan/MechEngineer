@@ -55,11 +55,6 @@ namespace MechEngineer
         }
 
 
-        internal static bool IsFiller(this MechComponentDef componentDef)
-        {
-            return componentDef.ComponentType == ComponentType.Upgrade && componentDef.Description.Id == Control.settings.FillerDefId;
-
-        }
 
         // ferros fibrous has some calculations behind it
         internal static bool IsArmor(this MechComponentDef componentDef)

@@ -10,7 +10,9 @@ namespace MechEngineer
     {
         public static void Validate(MechDef mechDef, ref Dictionary<MechValidationType, List<string>> errorMessages)
         {
-            ArmorStructure.ValidationRulesCheck(mechDef, ref errorMessages);
+            Armor.ValidationRulesCheck(mechDef, ref errorMessages);
+            Structure.ValidationRulesCheck(mechDef, ref errorMessages);
+            ReservedSlots.ValidationRulesCheck(mechDef, ref errorMessages);
             EngineHeat.ValidationRulesCheck(mechDef, ref errorMessages);
             EngineMisc.ValidationRulesCheck(mechDef, ref errorMessages);
             Gyro.ValidationRulesCheck(mechDef, ref errorMessages);

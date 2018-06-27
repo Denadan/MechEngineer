@@ -3,15 +3,15 @@
     "RelativeModifier" : 0,
     "AbsoluteModifier" : 0,
     "Description" : {
-        "Cost" : 0,
+        "Cost" : 450000,
         "Rarity" : 0,
         "Purchasable" : true,
         "Manufacturer" : "Generic",
-        "Model" : "Reserved slot",
-        "UIName" : "Reserved",
-        "Id" : "emod_structureslot",
-        "Name" : "Reserved structure slot",
-        "Details" : "Slot reservation for advanced structure and armor",
+        "Model" : "100 Standard Structure",
+        "UIName" : "100t Standard",
+        "Id" : "emod_structure_standard_100",
+        "Name" : "100t Standard Structure",
+        "Details" : " Roughly analogous to the bones in the human body, the standard chassis consists of a foamed aluminum core covered with various composite materials, wrapped in silicon-carbide fibers, and clad in titanium-alloyed steel.",
         "Icon" : "uixSvgIcon_quantity"
     },
     "BonusValueA" : "",
@@ -21,8 +21,8 @@
     "PrefabIdentifier" : "",
     "BattleValue" : 0,
     "InventorySize" : 1,
-    "Tonnage" : 0,
-    "AllowedLocations" : "All",
+    "Tonnage" : 10.00,
+    "AllowedLocations" : "CenterTorso",
     "DisallowedLocations" : "All",
     "CriticalComponent" : false,
     "statusEffects" : null,
@@ -33,3 +33,4 @@
         "tagSetSourceFile" : ""
     }
 }
+

@@ -1,34 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BattleTech;
+﻿using BattleTech;
 using BattleTech.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 
 namespace MechEngineer
 {
-    internal static class ArmorStructure
+    public static class Armor
     {
         internal static void ValidationRulesCheck(MechDef mechDef, ref Dictionary<MechValidationType, List<string>> errorMessages)
         {
-            var structure = mechDef.Inventory.Select(i => i.Def).Where(i => i.IsStructure()).ToArray();
             var armor = mechDef.Inventory.Select(i => i.Def).Where(i => i.IsArmor()).ToArray();
-
-
-            var slot_needs = mechDef.GetAdditionalSlots();
-
-            if (structure.Length == 0)
-            {
-                errorMessages[MechValidationType.InvalidHardpoints].Add("Structure Missing!");
-            }
-            else if (structure.Length > 1)
-            {
-                errorMessages[MechValidationType.InvalidHardpoints].Add("Invalid structure allocation, left only one");
-            }
-            else if(mechDef.Chassis.Tonnage != structure[0].GetStructureWeight())
-            {
-                errorMessages[MechValidationType.InvalidHardpoints].Add(
-                    string.Format("Structure weight missmatch. Replace {0}t structure with {1}t",
-                    structure[0].GetStructureWeight(), mechDef.Chassis.Tonnage));
-            }
 
             if (armor.Length == 0)
             {
@@ -38,50 +21,46 @@ namespace MechEngineer
             {
                 errorMessages[MechValidationType.InvalidHardpoints].Add("Mech cannot use more then one type of armor");
             }
-
-
-            var slots = mechDef.Inventory.Select(i => i.Def).Count(i => i.IsFiller());
-
-            if(slots != slot_needs)
-            {
-                if(slots > slot_needs)
-                    errorMessages[MechValidationType.InvalidInventorySlots].Add(string.Format("Too many reserved slots, remove {0}", slot_needs - slots));
-                else
-                    errorMessages[MechValidationType.InvalidInventorySlots].Add(string.Format("Not enough reserved slots, add {0}", slot_needs - slots));
-            }
         }
 
         internal static bool ProcessWeaponHit(MechComponent mechComponent, WeaponHitInfo hitInfo, ComponentDamageLevel damageLevel, bool applyEffects)
         {
-            if (mechComponent.componentDef.IsArmor()
-                || mechComponent.componentDef.IsStructure() 
-                || mechComponent.componentDef.IsFiller())
-            {
-                return false;
-            }
-
-            return true;
+            return !mechComponent.componentDef.IsArmor();
         }
 
-        
+        internal static void AddArmorIfPossible(MechDef mechDef)
+        {
+            if (!Control.settings.AutoFixArmor)
+            {
+                return;
+            }
+
+            if (mechDef.Inventory.Any(x => x.Def != null && x.Def.IsArmor()))
+            {
+                return;
+            }
+
+            var componentRefs = new List<MechComponentRef>(mechDef.Inventory);
+
+            var componentRef = new MechComponentRef(Control.settings.AutoFixArmorDef, null, ComponentType.Upgrade, ChassisLocations.CenterTorso);
+            componentRefs.Add(componentRef);
+
+            mechDef.SetInventory(componentRefs.ToArray());
+        }
+
         internal static void AdjustTooltip(TooltipPrefab_EquipmentAdapter tooltip, MechLabPanel panel, MechComponentDef mechComponentDef)
         {
-            var mechDef = panel.activeMechDef;
             if (mechComponentDef.IsArmor())
             {
-                var tonnage = ArmorTonnage(mechDef);
+                var mechDef = panel.activeMechDef;
+                var tonnage = Tonnage(mechDef);
                 tooltip.tonnageText.text = string.Format("{0:F2}", tonnage);
-            }
-            else if (mechComponentDef.IsFiller())
-            {
-                var slot_needs = mechDef.GetAdditionalSlots();
-                var slots = mechDef.Inventory.Select(i => i.Def).Count(i => i.IsFiller());
-                tooltip.bonusesText.text = string.Format("Reserved slots: {0} / {1}", slots, slot_needs);
             }
         }
 
 
-        public static float ArmorTonnage(MechDef mechDef)
+
+        public static float Tonnage(MechDef mechDef)
         {
 
             var num = 0f;
@@ -111,10 +90,10 @@ namespace MechEngineer
             return (num / factor).RoundStandard();
         }
 
-        public static float ArmorTonnageSave(MechDef mechDef)
+        public static float TonnageSave(MechDef mechDef)
         {
             var armor = mechDef.Inventory.Select(c => c.Def).FirstOrDefault(c => c.IsArmor());
-            
+
             if (armor == null)
                 return 0f;
 
@@ -139,5 +118,6 @@ namespace MechEngineer
 
             return (num - num / factor).RoundStandard();
         }
+
     }
 }

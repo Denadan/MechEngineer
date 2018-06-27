@@ -40,11 +40,14 @@
     <Compile Include="Engine\EngineCrits.cs" />
     <Compile Include="Engine\EnginePersistence.cs" />
     <Compile Include="Engine\EngineTooltip.cs" />
-    <Compile Include="Misc\ChasisInventoryFilter.cs" />
+    <Compile Include="Misc\Armor.cs" />
+    <Compile Include="Misc\ReservedSlotController.cs" />
+    <Compile Include="Misc\Structure.cs" />
+    <Compile Include="Patches\InventoryFilter_Execute.cs" />
     <Compile Include="Patches\MechBayPanelOnGotoMechLabPatch.cs" />
     <Compile Include="Patches\MechBayPaneOnRepairMechPatch.cs" />
+    <Compile Include="Patches\MechComponentRef_GetUIColor.cs" />
     <Compile Include="Patches\MechLab.cs" />
-    <Compile Include="Patches\MechLabInventoryWidget_ListViewApplyFilter.cs" />
     <Compile Include="Patches\MechLabPanelCreateMechComponentItemPatch.cs" />
     <Compile Include="Patches\MechLabItemSlotElementRefreshInfoPatch.cs" />
     <Compile Include="Misc\Cockpit.cs" />
@@ -53,7 +56,6 @@
     <Compile Include="Misc\WeightSavings.cs" />
     <Compile Include="Engine\EnginePersistanceItemStat.cs" />
     <Compile Include="Patches\MechLabInventoryWidgetOnAddItemPatch.cs" />
-    <Compile Include="Misc\ArmorStructure.cs" />
     <Compile Include="Misc\Chassis.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="AssemblyInfo.cs" />

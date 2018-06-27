@@ -26,6 +26,12 @@ namespace MechEngineer
         public float AutoFixInitialToTotalTonnageFactor = 0.1f; // 10% structure weight
         public float AutoFixInitialFixedAddedTonnage = 0; // not used anymore, was for cockpit 3 ton before cockpit became own item
 
+        public bool AutoFixArmor = true;
+        public string AutoFixArmorDef = "emod_armor_standard";
+
+        public bool AutoFixStructure = true;
+        public string AutoFixStructureDef = "emod_structure_standard_";
+
         public bool EnableAvailabilityChecks = true; // set this to false to have a faster mechlab experience on large engine counts 
 
         public string GearGryoPrefix = "Gear_Gyro_";
@@ -86,7 +92,6 @@ namespace MechEngineer
         public bool AllowPartialWeightSavings = false; // similar to patchwork armor without any penalties and location requirements, also works for structure
 
         public string StructurePrefix = "emod_structure_";
-        public string FillerDefId = "emod_structureslot";
 
         public CriticalRequre[] criticalRequrements =
         {
@@ -101,13 +106,13 @@ namespace MechEngineer
 
 
         public string ArmorPrefix = "emod_armor_";
-        public ArmorWeightSaving[] ArmorTypes = {
-            new ArmorWeightSaving { ComponentDefId = "emod_armor_standard", WeightSavingsFactor = 1f },
-            new ArmorWeightSaving { ComponentDefId = "emod_armor_lightferrosfibrous", WeightSavingsFactor = 1.06f },
-            new ArmorWeightSaving { ComponentDefId = "emod_armor_ferrosfibrous",WeightSavingsFactor = 1.12f },
-            new ArmorWeightSaving { ComponentDefId = "emod_armor_clanferrosfibrous",  WeightSavingsFactor = 1.2f },
-            new ArmorWeightSaving { ComponentDefId = "emod_armor_stealth",  WeightSavingsFactor = 1f },
-            new ArmorWeightSaving { ComponentDefId = "emod_armor_heavyferrosfibrous",WeightSavingsFactor = 1.24f }
+        public ArmorData[] ArmorTypes = {
+            new ArmorData { ComponentDefId = "emod_armor_standard", WeightSavingsFactor = 1f },
+            new ArmorData { ComponentDefId = "emod_armor_lightferrosfibrous", WeightSavingsFactor = 1.06f },
+            new ArmorData { ComponentDefId = "emod_armor_ferrosfibrous",WeightSavingsFactor = 1.12f },
+            new ArmorData { ComponentDefId = "emod_armor_clanferrosfibrous",  WeightSavingsFactor = 1.2f },
+            new ArmorData { ComponentDefId = "emod_armor_stealth",  WeightSavingsFactor = 1f },
+            new ArmorData { ComponentDefId = "emod_armor_heavyferrosfibrous",WeightSavingsFactor = 1.24f }
         };
 
         /* 
@@ -155,7 +160,7 @@ namespace MechEngineer
         public int RequiredCriticalSlotCount;
     }
 
-    public class ArmorWeightSaving
+    public class ArmorData
     {
         public string ComponentDefId;
         public float WeightSavingsFactor;

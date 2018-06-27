@@ -3,11 +3,11 @@
     "RelativeModifier" : 0,
     "AbsoluteModifier" : 0,
     "Description" : {
-        "Cost" : 110000,
+        "Cost" : 75000,
         "Rarity" : 0,
         "Purchasable" : true,
         "Manufacturer" : "Generic",
-        "Model" : "25t Standard Structure",
+        "Model" : "25 Standard Structure",
         "UIName" : "25t Standard",
         "Id" : "emod_structure_standard_25",
         "Name" : "25t Standard Structure",
@@ -21,7 +21,7 @@
     "PrefabIdentifier" : "",
     "BattleValue" : 0,
     "InventorySize" : 1,
-    "Tonnage" : 2.5,
+    "Tonnage" : 2.50,
     "AllowedLocations" : "CenterTorso",
     "DisallowedLocations" : "All",
     "CriticalComponent" : false,
@@ -33,3 +33,4 @@
         "tagSetSourceFile" : ""
     }
 }
+

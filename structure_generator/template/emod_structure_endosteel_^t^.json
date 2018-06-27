@@ -1,16 +1,19 @@
+150000
+50000
+0.05
 {
     "StatName" : null,
     "RelativeModifier" : 0,
     "AbsoluteModifier" : 0,
     "Description" : {
-        "Cost" : 300000,
+        "Cost" : ^c^,
         "Rarity" : 0,
         "Purchasable" : true,
         "Manufacturer" : "Generic",
-        "Model" : "35t Endo-Steel Structure",
-        "UIName" : "35t Endo-Steel",
-        "Id" : "emod_structure_endosteel_35",
-        "Name" : "35t Endo-Steel Structure",
+        "Model" : "^t^t Endo-Steel Structure",
+        "UIName" : "^t^t Endo-Steel",
+        "Id" : "emod_structure_endosteel_^t^",
+        "Name" : "^t^t Endo-Steel Structure",
         "Details" : "Developed by the Terran Hegemony in 2487, Endo Steel was designed especially for use in BattleMech skeletons. Using zero-G manufacturing techniques that uniformly mix high-density steel with lower-density titanium and aluminum, the process produces a metal twice as strong per unit of weight as standard skeleton materials thus halving the weight of the chassis, but at an increase in overall bulk.\r\n\r\nAdd exactly <b>14</b> Endo-Steel slots to <b>half</b> your internal structure weight.",
         "Icon" : "uixSvgIcon_quantity"
     },
@@ -21,7 +24,7 @@
     "PrefabIdentifier" : "",
     "BattleValue" : 0,
     "InventorySize" : 1,
-    "Tonnage" : 1.75,
+    "Tonnage" : ^f^,
     "AllowedLocations" : "CenterTorso",
     "DisallowedLocations" : "All",
     "CriticalComponent" : false,
@@ -33,4 +36,3 @@
         "tagSetSourceFile" : ""
     }
 }
-

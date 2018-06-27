@@ -24,6 +24,8 @@ namespace MechEngineer
                 Cockpit.AddCockpitIfPossible(mechDef);
                 Gyro.AddGyroIfPossible(mechDef);
                 EngineMisc.AddEngineIfPossible(mechDef);
+                Armor.AddArmorIfPossible(mechDef);
+                Structure.AddStructureIfPossible(mechDef);
             }
         }
     }

@@ -3,7 +3,7 @@
     "RelativeModifier" : 0,
     "AbsoluteModifier" : 0,
     "Description" : {
-        "Cost" : 110000,
+        "Cost" : 250000,
         "Rarity" : 0,
         "Purchasable" : true,
         "Manufacturer" : "Generic",
@@ -21,7 +21,7 @@
     "PrefabIdentifier" : "",
     "BattleValue" : 0,
     "InventorySize" : 1,
-    "Tonnage" : 1.5,
+    "Tonnage" : 1.50,
     "AllowedLocations" : "CenterTorso",
     "DisallowedLocations" : "All",
     "CriticalComponent" : false,
@@ -33,3 +33,4 @@
         "tagSetSourceFile" : ""
     }
 }
+

@@ -34,7 +34,7 @@ namespace MechEngineer
 
             {
                 var info = typeof(ChassisDef).GetProperty("MaxJumpjets");
-                var value = Convert.ChangeType(8, info.PropertyType);
+                var value = Convert.ChangeType(9, info.PropertyType);
                 info.SetValue(chassisDef, value, null);
             }
         }
