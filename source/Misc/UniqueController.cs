@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BattleTech;
 using BattleTech.UI;
 using Harmony;
@@ -9,91 +10,38 @@ namespace MechEngineer
 {
     public static class UniqueController
     {
-
-
-    }
-
-//    [HarmonyPatch(typeof(MechLabLocationWidget), "ValidateAdd", new Type[] {typeof(MechComponentDef)})]
-    public static class MechLabLocationWidget_ValidateAdd_Patch
-    {
-        public static void Postfix(MechComponentDef newComponentDef,
-            MechLabLocationWidget __instance, ref bool __result, ref string ___dropErrorMessage,
-            List<MechLabItemSlotElement> ___localInventory,
-            int ___usedSlots,
-            int ___maxSlots,
-            TextMeshProUGUI ___locationName,
-            MechLabPanel ___mechLab
-
-        )
+        public static void ValidationRulesCheck(MechDef mechDef, ref Dictionary<MechValidationType, List<string>> errorMessages)
         {
-            Control.mod.Logger.Log("ValidateAdd started at " + ___locationName.text);
-            Control.mod.Logger.Log("Check for " + newComponentDef == null ? "NULL!" : newComponentDef.Description.Id);
 
-            UniqueItem unique_info;
-            //if item not in unique list - continue normal flow
-            if (newComponentDef == null)
-                return;
+            var items_by_category = (
+                from itemRef in mechDef.Inventory
+                let info = itemRef.GetUniqueItem()
+                where info != null
+                group info by info.ReplaceTag
+                into g
+                select new {tag = g.Key, count = g.Count()}
+            ).ToDictionary(i => i.tag, i => i.count);
 
-            if (!newComponentDef.IsUnique(out unique_info))
+            foreach (var category in Control.settings.UniqueCategories)
             {
-                Control.mod.Logger.Log("Not unique!");
-                return;
+                int n = 0;
+                if (items_by_category.TryGetValue(category.Tag, out n))
+                {
+                    if (n > 1)
+                    {
+                        errorMessages[MechValidationType.InvalidInventorySlots]
+                            .Add(string.Format(category.ErrorToMany, category.Tag.ToUpper(), category.Tag));
+                    }
+                }
+                else
+                {
+                    if (category.Required)
+                        errorMessages[MechValidationType.InvalidInventorySlots]
+                            .Add(string.Format(category.ErrorMissing, category.Tag.ToUpper(), category.Tag));
+                }
             }
-
-            Control.mod.Logger.Log("is unique, freeslot");
-
-            //if cannot place and cause not size - continue normal flow
-            if (!__result && !___dropErrorMessage.EndsWith("Not enough free slots."))
-                return;
-
-            //find if have another this type item in inventory
-            var n = ___localInventory.FindUniqueItem(unique_info);
-
-            Control.mod.Logger.Log("index = " + n.ToString());
-            //if no - continue normal flow(add new or show "not enough slots" message
-            if (n < 0)
-                return;
-
-            Control.mod.Logger.Log("freeslot2");
-
-            //if cannot fit new item with replacement
-            if (___usedSlots - ___localInventory[n].ComponentRef.Def.InventorySize + newComponentDef.InventorySize >
-                ___maxSlots)
-            {
-                __result = false;
-                ___dropErrorMessage = string.Format("Cannot add {0} to {1}: Not enough free slots.",
-                    newComponentDef.Description.Name, ___locationName.text);
-                return;
-            }
-
-            Control.mod.Logger.Log("replacement");
-
-            //do replacement 
-            var dragItem = ___mechLab.DragItem;
-
-            var old_item = ___localInventory[n];
-            __instance.OnRemoveItem(old_item, true);
-            ___mechLab.ForceItemDrop(old_item);
-            var clear = __instance.OnAddItem(___mechLab.DragItem, true);
-            if (__instance.Sim != null)
-            {
-                WorkOrderEntry_InstallComponent subEntry = __instance.Sim.CreateComponentInstallWorkOrder(
-                    ___mechLab.baseWorkOrder.MechID,
-                    dragItem.ComponentRef, __instance.loadout.Location, dragItem.MountedLocation);
-                ___mechLab.baseWorkOrder.AddSubEntry(subEntry);
-            }
-
-            dragItem.MountedLocation = __instance.loadout.Location;
-            ___mechLab.ClearDragItem(clear);
-            __instance.RefreshHardpointData();
-            ___mechLab.ValidateLoadout(false);
-            __result = false;
-            ___dropErrorMessage = "Item Replaced";
-            Control.mod.Logger.Log("done");
-
         }
     }
-
 
 
     [HarmonyPatch(typeof(MechLabLocationWidget), "OnMechLabDrop")]

@@ -11,16 +11,7 @@ namespace MechEngineer
     {
         internal static void ValidationRulesCheck(MechDef mechDef, ref Dictionary<MechValidationType, List<string>> errorMessages)
         {
-            var armor = mechDef.Inventory.Select(i => i.Def).Where(i => i.IsArmor()).ToArray();
 
-            if (armor.Length == 0)
-            {
-                errorMessages[MechValidationType.InvalidHardpoints].Add("Armor Missing!");
-            }
-            else if (armor.Length > 1)
-            {
-                errorMessages[MechValidationType.InvalidHardpoints].Add("Mech cannot use more then one type of armor");
-            }
         }
 
         internal static bool ProcessWeaponHit(MechComponent mechComponent, WeaponHitInfo hitInfo, ComponentDamageLevel damageLevel, bool applyEffects)

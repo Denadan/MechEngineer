@@ -61,7 +61,7 @@ namespace MechEngineer
             if (location == null)
                 return;
 
-            Control.mod.Logger.Log(string.Format("{0} Registrer, {1}/{2} slots", location.ChassisLocation, location.UsedSlots, location.MaxSlots));
+            //Control.mod.Logger.Log(string.Format("{0} Registrer, {1}/{2} slots", location.ChassisLocation, location.UsedSlots, location.MaxSlots));
 
             LocationInfo temp;
             if (locations.TryGetValue(location.ChassisLocation, out temp))
@@ -75,15 +75,14 @@ namespace MechEngineer
             if (CurrentMechDef == null)
                 return;
 
-            Control.mod.Logger.Log("refresh required");
+            //Control.mod.Logger.Log("refresh required");
 
             var total = locations.Sum(i => i.Value.MaxSlots);
             var used = locations.Sum(i => i.Value.UsedSlots);
             var need = def.GetReservedSlots();
             var slots = need;
 
-            Control.mod.Logger.Log(string.Format("Refresh slots total:{0} used:{1} free:{2} need:{3}", total, used, total - used, need));
-
+            //Control.mod.Logger.Log(string.Format("Refresh slots total:{0} used:{1} free:{2} need:{3}", total, used, total - used, need));
 
             foreach (var pair in locations)
             {

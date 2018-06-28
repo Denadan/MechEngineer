@@ -11,16 +11,10 @@ namespace MechEngineer
         internal static void ValidationRulesCheck(MechDef mechDef, ref Dictionary<MechValidationType, List<string>> errorMessages)
         {
             var structure = mechDef.Inventory.Select(i => i.Def).Where(i => i.IsStructure()).ToArray();
+            if(structure.Length == 0)
+                return;
 
-            if (structure.Length == 0)
-            {
-                errorMessages[MechValidationType.InvalidHardpoints].Add("Structure Missing!");
-            }
-            else if (structure.Length > 1)
-            {
-                errorMessages[MechValidationType.InvalidHardpoints].Add("Invalid structure allocation, left only one");
-            }
-            else if (mechDef.Chassis.Tonnage != structure[0].GetStructureWeight())
+            if (mechDef.Chassis.Tonnage != structure[0].GetStructureWeight())
             {
                 errorMessages[MechValidationType.InvalidHardpoints].Add(
                     string.Format("Structure weight missmatch. Replace {0}t structure with {1}t",
