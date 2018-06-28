@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MechEngineer
 {
-    public class MechEngineerSettings : ModSettings
+    public partial class MechEngineerSettings : ModSettings
     {
         public int EngineMissingFallbackHeatSinkCapacity = 30; // for stuff that wasn't auto fixed and still missing an engine, use a fallback
 
@@ -120,6 +120,7 @@ namespace MechEngineer
             new ArmorData { ComponentDefId = "emod_armor_stealth",  WeightSavingsFactor = 1f },
             new ArmorData { ComponentDefId = "emod_armor_heavyferrosfibrous",WeightSavingsFactor = 1.24f }
         };
+
 
         /* 
 		set to false to use TT walk values

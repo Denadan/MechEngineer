@@ -43,6 +43,7 @@
     <Compile Include="Misc\Armor.cs" />
     <Compile Include="Misc\ReservedSlotController.cs" />
     <Compile Include="Misc\Structure.cs" />
+    <Compile Include="Misc\UniqueController.cs" />
     <Compile Include="Patches\MechLabInventoryWidget_RefreshJumpJetOptionsPathc.cs" />
     <Compile Include="Patches\MechBayPanelOnGotoMechLabPatch.cs" />
     <Compile Include="Patches\MechBayPaneOnRepairMechPatch.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="MechEngineerSettings.cs" />
     <Compile Include="Patches\MechStatisticsRulesCalculateHeatEfficiencyStatPatch.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="UniqueItemStuff.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\mod.json" />

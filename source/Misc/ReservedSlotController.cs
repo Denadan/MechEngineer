@@ -10,8 +10,21 @@ namespace MechEngineer
 {
     public class ReservedSlots
     {
-        public static MechDef CurrentMechDef;
+        private static MechDef mech_def;
 
+        public static MechDef CurrentMechDef
+        {
+            get { return mech_def; }
+            set
+            {
+                mech_def = value;
+                if(mech_def == null)
+                    foreach (var pair in locations)
+                    {
+                        pair.Value.Clear();
+                    }
+            }
+        }
 
         private static Dictionary<ChassisLocations, LocationInfo> locations;
 
@@ -77,8 +90,6 @@ namespace MechEngineer
                 slots = pair.Value.Refresh(slots, need <= total - used);
             }
         }
-
-
     }
 
     public class LocationInfo
@@ -121,6 +132,14 @@ namespace MechEngineer
             }
 
             return slots - MaxSlots + used;
+        }
+
+        public void Clear()
+        {
+            foreach (var fillerImage in FillerImages)
+            {
+                GameObject.Destroy(fillerImage);
+            }
         }
     }
 }
