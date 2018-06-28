@@ -43,7 +43,6 @@ namespace MechEngineer
             var componentRefs = new List<MechComponentRef>(mechDef.Inventory);
 
             var struct_def = Control.settings.AutoFixStructureDef + mechDef.Chassis.Tonnage;
-            Control.mod.Logger.Log(struct_def + " added to " + mechDef.Chassis.Description.UIName);
 
             var componentRef = new MechComponentRef(struct_def, null, ComponentType.Upgrade, ChassisLocations.CenterTorso);
             componentRefs.Add(componentRef);

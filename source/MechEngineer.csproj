@@ -43,7 +43,7 @@
     <Compile Include="Misc\Armor.cs" />
     <Compile Include="Misc\ReservedSlotController.cs" />
     <Compile Include="Misc\Structure.cs" />
-    <Compile Include="Patches\InventoryFilter_Execute.cs" />
+    <Compile Include="Patches\MechLabInventoryWidget_RefreshJumpJetOptionsPathc.cs" />
     <Compile Include="Patches\MechBayPanelOnGotoMechLabPatch.cs" />
     <Compile Include="Patches\MechBayPaneOnRepairMechPatch.cs" />
     <Compile Include="Patches\MechComponentRef_GetUIColor.cs" />
