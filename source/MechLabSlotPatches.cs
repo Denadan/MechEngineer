@@ -8,6 +8,7 @@ using System.Linq;
 using BattleTech.DataObjects;
 using HBS.Logging;
 using Object = System.Object;
+using UnityEngine.UI;
 
 namespace MechEngineer
 {
@@ -116,29 +117,32 @@ namespace MechEngineer
 
                 if (changedSlotCount == 0)
                 {
-                    change_color(slots);
+                    AddFillersToSlot(slots, ___loadout, __instance);
                     return;
                 }
 
                 var templateSlot = slots[0];
 
                 // add missing
+                int index = slots[0].GetSiblingIndex();
                 for (var i = slots.Count; i < ___maxSlots; i++)
                 {
                     var newSlot = UnityEngine.Object.Instantiate(templateSlot, layout);
                     newSlot.localPosition = new Vector3(0, -(1 + i * SlotHeight), 0);
-                    newSlot.SetSiblingIndex(templateSlot.GetSiblingIndex());
+                    newSlot.SetSiblingIndex(index + i);
                     newSlot.name = "slot (" + i + ")";
+                    slots.Add(newSlot);
                 }
 
                 // remove abundant
-                for (var i = ___maxSlots; i < slots.Count; i++)
+                while(slots.Count > ___maxSlots)
                 {
-                    UnityEngine.Object.Destroy(slots[i].gameObject);
+                    var slot = slots.Last();
+                    slots.RemoveAt(slots.Count - 1);
+                    UnityEngine.GameObject.Destroy(slot.gameObject);
                 }
 
-                change_color(slots);
-
+                AddFillersToSlot(slots, ___loadout, __instance);
 
                 var changedHeight = changedSlotCount * SlotHeight;
 
@@ -151,13 +155,32 @@ namespace MechEngineer
             }
         }
 
-        private static void change_color(List<Transform> slots)
+        private static void AddFillersToSlot(List<Transform> slots, LocationLoadoutDef loadout, MechLabLocationWidget instance)
         {
-            foreach (var transform in slots)
+            List<Image> images = new List<Image>();
+
+  
+
+            foreach(var slot in slots)
             {
-                var color = transform.GetComponentInChildren<BattleTech.UI.UIColorRefTracker>();
-                color.SetUIColor(UIColor.Blue);
+                var go = new GameObject();
+                var rect = go.AddComponent<RectTransform>();
+                rect.pivot = new Vector2(0.5f, 0.5f);
+                rect.anchorMin = new Vector2(0, 0);
+                rect.anchorMax = new Vector2(1, 1);
+                rect.anchoredPosition = Vector2.zero;
+                rect.sizeDelta = new Vector2(-6,-6);
+                go.AddComponent<CanvasRenderer>();
+
+                var image = go.AddComponent<Image>();
+                image.color = Color.red;
+                images.Add(image);
+
+                rect.SetParent(slot,false);
             }
+
+            var loc = new LocationInfo(instance, images, loadout);
+            ReservedSlots.RegisterLocation(loc);
         }
 
         private const int SlotHeight = 32;

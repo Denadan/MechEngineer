@@ -32,6 +32,10 @@ namespace MechEngineer
         public bool AutoFixStructure = true;
         public string AutoFixStructureDef = "emod_structure_standard_";
 
+        public UnityEngine.Color FitColor = new UnityEngine.Color(0, 0.25f, 0.5f);
+        public UnityEngine.Color UnFitColor = new UnityEngine.Color(0.5f, 0, 0);
+
+
         public bool EnableAvailabilityChecks = true; // set this to false to have a faster mechlab experience on large engine counts 
 
         public string GearGryoPrefix = "Gear_Gyro_";
@@ -40,6 +44,8 @@ namespace MechEngineer
         public string GearHeatSinkDouble = "Gear_HeatSink_Generic_Double";
         public string GearHeatSinkStandard = "Gear_HeatSink_Generic_Standard";
         public string EngineKitDHS = "emod_kit_dhs";
+
+
 
         public string EnginePartPrefix = "emod_engine";
         public string EngineSlotPrefix = "emod_engineslots";

@@ -1,4 +1,5 @@
 ﻿using System;
+using BattleTech;
 using BattleTech.UI;
 using Harmony;
 
@@ -6,6 +7,7 @@ namespace MechEngineer
 {
     public static class MechLab
     {
+
         public static MechLabPanel Current
         {
             set { GlobalReference.Target = value; }
@@ -17,7 +19,7 @@ namespace MechEngineer
         [HarmonyPatch(typeof(MechLabPanel), "LoadMech")]
         public static class MechLabPanelLoadMechPatch
         {
-            public static void Postfix(MechLabPanel __instance)
+            public static void Postfix(MechLabPanel __instance, MechDef ___activeMechDef)
             {
                 try
                 {
@@ -27,6 +29,9 @@ namespace MechEngineer
                 {
                     Control.mod.Logger.LogError(e);
                 }
+
+                ReservedSlots.CurrentMechDef = ___activeMechDef;
+                ReservedSlots.RefreshData(___activeMechDef);
             }
         }
 
@@ -43,7 +48,20 @@ namespace MechEngineer
                 {
                     Control.mod.Logger.LogError(e);
                 }
+                ReservedSlots.CurrentMechDef = null;
+
             }
         }
+
+        [HarmonyPatch(typeof(MechLabPanel), "ValidateLoadout")]
+        public static class MechLabPanelValidateLoadoutPatch
+        {
+            public static void Postfix(MechLabPanel __instance, MechDef ___activeMechDef)
+            {
+                ReservedSlots.RefreshData(___activeMechDef);
+
+            }
+        }
+
     }
 }

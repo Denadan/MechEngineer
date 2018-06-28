@@ -80,7 +80,7 @@ namespace MechEngineer
             }
         }
         
-        internal static int GetAdditionalSlots(this MechDef mechDef)
+        internal static int GetReservedSlots(this MechDef mechDef)
         {
             if (mechDef == null)
                 return 0;

@@ -27,10 +27,10 @@ namespace MechEngineer
                 {
                     var tonnage = component.GetStructureWeight();
 //                    Control.mod.Logger.Log(string.Format("[{0}] found structure {1} {2}/{3}", Time.realtimeSinceStartup,
-                        component.Description.Id, tonnage, ___mechTonnage));
+ //                       component.Description.Id, tonnage, ___mechTonnage));
                     item.gameObject.SetActive(
-                        ___mechTonnage < 0 ||
-                        ___mechTonnage == tonnage
+                        (___mechTonnage < 0 ||
+                        ___mechTonnage == tonnage) && item.gameObject.activeSelf
                         );
                 }
             }
